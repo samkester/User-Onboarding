@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Form from "./components/Form";
 import * as Yup from "yup";
 import formSchema from "./data/formSchema";
+import Axios from 'axios';
 
 const defaultFormValues = {
   name: "",
@@ -27,9 +28,21 @@ function App() {
     setFormValues({...formValues, [name]: value});
   };
 
+  const submitForm = () => {
+    Axios.post(
+      "https://reqres.in/api/users",
+      {name: formValues.name,
+       email: formValues.email,
+       password: formValues.password})
+    .then(result => console.log(result))
+    .catch(error => console.log(error))
+    .finally(() => {setFormValues(defaultFormValues);
+                    setFormErrors(defaultFormErrors);})
+  }
+
   return (
     <div>
-      <Form values={formValues} setValue={setFormValue} errors={formErrors} />
+      <Form values={formValues} setValue={setFormValue} errors={formErrors} submit={submitForm} />
     </div>
   );
 }

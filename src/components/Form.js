@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import formSchema from "../data/formSchema";
 
-const Form = ({values, errors, setValue}) => {
+const Form = ({values, errors, setValue, submit}) => {
     const [buttonEnabled, setButtonEnabled] = useState(false);
 
     const setValueDirect = (event => {
@@ -12,12 +12,17 @@ const Form = ({values, errors, setValue}) => {
         setValue(event.target.name, event.target.checked)
     })
 
+    const wrappedSubmit = (event => {
+        event.preventDefault();
+        submit();
+    })
+
     useEffect(() => {
         formSchema.isValid(values).then(valid => setButtonEnabled(valid));
     }, [values]);
     
     return(
-        <div>
+        <form onSubmit={wrappedSubmit}>
             <label>
                 Name
                 <input type="text" name="name" value={values.name} onChange={setValueDirect} />
@@ -41,7 +46,7 @@ const Form = ({values, errors, setValue}) => {
                 <div>{errors.password}</div>
                 <div>{errors.readTOS}</div>
             </div>
-        </div>
+        </form>
     );
 }
 
