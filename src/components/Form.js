@@ -33,7 +33,7 @@ const Form = ({values, errors, setValue, submit}) => {
             </label>
             <label>
                 Password
-                <input type="text" name="password" value={"*".repeat(values.password.length)} onChange={setValueDirect} />
+                <input type="text" name="password" value={values.password} onChange={setValueDirect} />
             </label>
             <label>
                 I agree to the Terms of Service.
