@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import formSchema from "../data/formSchema";
 
-const Form = ({values, setValue}) => {
+const Form = ({values, errors, setValue}) => {
+    const [buttonEnabled, setButtonEnabled] = useState(false);
+
     const setValueDirect = (event => {
         setValue(event.target.name, event.target.value)
     })
@@ -8,6 +11,10 @@ const Form = ({values, setValue}) => {
     const setValueOfCheckbox = (event => {
         setValue(event.target.name, event.target.checked)
     })
+
+    useEffect(() => {
+        formSchema.isValid(values).then(valid => setButtonEnabled(valid));
+    }, [values]);
     
     return(
         <div>
@@ -27,6 +34,13 @@ const Form = ({values, setValue}) => {
                 I agree to the Terms of Service.
                 <input type="checkbox" name="readTOS" checked={values.readTOS} onChange={setValueOfCheckbox} />
             </label>
+            <button disabled={!buttonEnabled}>Push Me</button>
+            <div className="errors">
+                <div>{errors.name}</div>
+                <div>{errors.email}</div>
+                <div>{errors.password}</div>
+                <div>{errors.readTOS}</div>
+            </div>
         </div>
     );
 }
