@@ -4,6 +4,7 @@ import UserCard from "./components/UserCard";
 import * as Yup from "yup";
 import formSchema from "./data/formSchema";
 import Axios from 'axios';
+import StyledApp from './components/StyledApp';
 
 const defaultFormValues = {
   name: "",
@@ -52,10 +53,11 @@ function App() {
   }
 
   return (
-    <div>
+    <StyledApp>
+      <h1>User Onboarding</h1>
       <Form values={formValues} setValue={setFormValue} errors={formErrors} submit={submitForm} />
       {users.map(item => <UserCard key={item.id} user={item} />)}
-    </div>
+    </StyledApp>
   );
 }
 
